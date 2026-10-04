@@ -1,0 +1,40 @@
+PROJECT LYRA — PU2 ON KIISU V4BR CLONE — RUNBOOK
+=================================================
+
+STATE: seller's Private Unleashed 2.0 verified BOOTING on this Kiisu v4br
+clone, but it flags "No Factory Keys Found / Secure Enclave is damaged"
+(clones have no factory crypto keys — device_info shows enclave_valid_keys:0,
+firmware_branch:cstm_names_uids). The bypass build removes that gate.
+
+WHY THE SD "FAILED TO MOUNT": the card was ExFAT. The Flipper only reads
+FAT32. Any time it looks dead with SD in — check the filesystem first.
+Reformat: diskutil eraseVolume FAT32 FLIP <disk>.
+
+FLASH (device in DFU: LEFT+BACK 5s, release BACK):
+  ./install.sh firmware_bypass_pls.dfu
+  -> unplug, replug (no buttons)
+
+SD LAYOUT (FAT32 only!):
+  key.fz             -> ROOT          (mirror key — pairs with bypass build)
+  keeloq_mfcodes     -> subghz/assets/
+  setting_user.txt   -> subghz/assets/
+  Vehicles/          -> subghz/Vehicles/   (84-brand capture pack)
+  + optional DBs: subghz/ infrared/ nfc/ badusb/ apps/ (big collections)
+
+VERIFY:
+  1. Boots with NO enclave popup
+  2. Sub-GHz -> Add Manually -> full protocol set present
+
+RECOVERY (bricked/black screen):
+  - Black screen + red LED = dead BATTERY. Charge 30-60 min first.
+  - Force DFU: LEFT+BACK 5s, release BACK -> reflash any .dfu
+  - This board was flashed 5x this session; it always recovers via DFU.
+
+HISTORY OF THIS DEVICE (Oct 3 2026):
+  1. unlshd-084e public Unleashed flashed via dfu-util (ok)
+  2. seller PU2 chain: STEP4 firmware.dfu -> error -> DFU -> STEP5
+     dump_patch.dfu (ok — boots, enclave warning on clone)
+  3. bypass build flashed over (current)
+
+NOT IN THIS REPO: the seller's decrypted private files (paid product).
+Community bypass build is public and free.
